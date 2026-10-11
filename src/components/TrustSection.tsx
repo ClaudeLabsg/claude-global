@@ -41,7 +41,9 @@ export function TrustSection() {
                   ))}
                 </ul>
                 <Link
-                  href={`/${country.slug}`}
+                  href={country.url ?? `/${country.slug}`}
+                  target={country.url ? "_blank" : undefined}
+                  rel={country.url ? "noopener noreferrer" : undefined}
                   className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-clay-dark"
                 >
                   {country.name} delivery details

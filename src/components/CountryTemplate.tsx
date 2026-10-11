@@ -157,7 +157,9 @@ export function CountryTemplate({ country }: { country: Country }) {
               {otherCountries.map((c, i) => (
                 <Reveal key={c.slug} delay={i * 0.1}>
                   <Link
-                    href={`/${c.slug}`}
+                    href={c.url ?? `/${c.slug}`}
+                    target={c.url ? "_blank" : undefined}
+                    rel={c.url ? "noopener noreferrer" : undefined}
                     className="group relative block h-56 overflow-hidden rounded-2xl"
                   >
                     <Image

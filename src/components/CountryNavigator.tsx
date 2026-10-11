@@ -34,7 +34,9 @@ export function CountryNavigator() {
           {countries.map((country, i) => (
             <Reveal key={country.slug} delay={i * 0.1}>
               <Link
-                href={`/${country.slug}`}
+                href={country.url ?? `/${country.slug}`}
+                target={country.url ? "_blank" : undefined}
+                rel={country.url ? "noopener noreferrer" : undefined}
                 className="group relative block h-[420px] overflow-hidden rounded-2xl border border-white/10"
               >
                 <Image

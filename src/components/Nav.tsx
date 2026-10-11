@@ -61,7 +61,9 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
                 {countries.map((c) => (
                   <Link
                     key={c.slug}
-                    href={`/${c.slug}`}
+                    href={c.url ?? `/${c.slug}`}
+                    target={c.url ? "_blank" : undefined}
+                    rel={c.url ? "noopener noreferrer" : undefined}
                     className="flex items-center justify-between border-t border-current/10 px-4 py-3 text-sm hover:bg-clay/10"
                   >
                     <span className="flex items-center gap-2">
@@ -103,7 +105,13 @@ export function Nav({ variant = "light" }: { variant?: "light" | "dark" }) {
               Global
             </Link>
             {countries.map((c) => (
-              <Link key={c.slug} href={`/${c.slug}`} onClick={() => setOpen(false)}>
+              <Link
+                key={c.slug}
+                href={c.url ?? `/${c.slug}`}
+                target={c.url ? "_blank" : undefined}
+                rel={c.url ? "noopener noreferrer" : undefined}
+                onClick={() => setOpen(false)}
+              >
                 {c.flag} {c.name}
               </Link>
             ))}

@@ -46,7 +46,12 @@ export function Footer() {
               </li>
               {countries.map((c) => (
                 <li key={c.slug}>
-                  <Link href={`/${c.slug}`} className="text-bone/70 transition-colors hover:text-bone">
+                  <Link
+                    href={c.url ?? `/${c.slug}`}
+                    target={c.url ? "_blank" : undefined}
+                    rel={c.url ? "noopener noreferrer" : undefined}
+                    className="text-bone/70 transition-colors hover:text-bone"
+                  >
                     {c.flag} {c.name}
                   </Link>
                 </li>

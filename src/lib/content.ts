@@ -160,6 +160,7 @@ export const deliveryPhases = [
 export type Country = {
   slug: string;
   name: string;
+  url?: string;
   flag: string;
   accent: string;
   accentVar: string;
@@ -183,6 +184,7 @@ export const countries: Country[] = [
   {
     slug: "singapore",
     name: "Singapore",
+    url: "https://claudecode.sg/",
     flag: "🇸🇬",
     accent: "sg",
     accentVar: "var(--color-sg)",
