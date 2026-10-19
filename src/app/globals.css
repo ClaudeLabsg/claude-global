@@ -84,3 +84,68 @@ body {
     animation: none;
   }
 }
+
+/* Partner logo marquee, as on claudecode.sg */
+@keyframes partner-marquee {
+  0% {
+    transform: translate(0);
+  }
+  to {
+    transform: translate(-50%);
+  }
+}
+
+.partner-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, #0000, #000 8% 92%, #0000);
+}
+.partner-marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  width: max-content;
+  animation: 50s linear infinite partner-marquee;
+}
+.partner-marquee:hover .partner-marquee__track {
+  animation-play-state: paused;
+}
+.partner-marquee__track .logo-box {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 56px;
+}
+.partner-marquee__track .logo-box img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+.partner-marquee__track .logo-box img:hover {
+  opacity: 1;
+}
+
+@media (min-width: 640px) {
+  .partner-marquee__track {
+    gap: 56px;
+  }
+  .partner-marquee__track .logo-box {
+    width: 170px;
+    height: 68px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partner-marquee {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .partner-marquee__track {
+    animation: none;
+  }
+}

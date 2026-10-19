@@ -24,18 +24,28 @@ function NavAnchor({ link, className, onClick }: { link: NavLink; className: str
   );
 }
 
-export function Nav({ code, links, joinHref }: { code: string; links: NavLink[]; joinHref: string }) {
+export function Nav({
+  code,
+  links,
+  joinHref,
+  homeHref = "/",
+}: {
+  code: string;
+  links: NavLink[];
+  joinHref: string;
+  homeHref?: string;
+}) {
   const [open, setOpen] = useState(false);
   const externalProps = joinHref.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {};
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-bg/85 backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-        <Link href="/" className="flex items-center gap-2" aria-label="Claude Global Community home">
+        <Link href={homeHref} className="flex shrink-0 items-center gap-2" aria-label={`Claude${code} Community home`}>
           <Wordmark code={code} />
         </Link>
 
-        <div className="hidden items-center gap-6 lg:flex">
+        <div className="hidden items-center gap-6 xl:flex">
           {links.map((link) => (
             <NavAnchor key={link.label} link={link} className={linkClass} />
           ))}
@@ -50,7 +60,7 @@ export function Nav({ code, links, joinHref }: { code: string; links: NavLink[];
             Join Community
           </a>
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary hover:bg-surface lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-text-secondary hover:bg-surface xl:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={open}
@@ -61,7 +71,7 @@ export function Nav({ code, links, joinHref }: { code: string; links: NavLink[];
       </nav>
 
       {open && (
-        <div className="border-t border-border/60 bg-bg px-6 pb-6 lg:hidden">
+        <div className="border-t border-border/60 bg-bg px-6 pb-6 xl:hidden">
           <div className="flex flex-col gap-4 pt-4">
             {links.map((link) => (
               <NavAnchor key={link.label} link={link} className={linkClass} onClick={() => setOpen(false)} />

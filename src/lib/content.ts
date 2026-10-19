@@ -124,6 +124,10 @@ export function formatEventDate(date: string, withYear = true) {
   });
 }
 
+export function countryBySlug(slug: string) {
+  return countries.find((c) => c.slug === slug);
+}
+
 export function countryHref(country: Country) {
   return country.url ?? `/${country.slug}`;
 }

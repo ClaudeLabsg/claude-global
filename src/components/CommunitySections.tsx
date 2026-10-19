@@ -1,10 +1,14 @@
-import { ArrowRight, BookOpen, CalendarDays, Code, Hammer } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, BookOpen, CalendarDays, Code, Hammer } from "lucide-react";
 import { activities, chatChannel, eventChannels, type Country } from "@/lib/content";
 import { ChannelIcon, channelMeta } from "./channels";
 
 const activityIcons = { workshops: Hammer, freestyle: Code, resources: BookOpen };
 
-export function WhatWeDo({ intro }: { intro: string }) {
+type ActivityKey = (typeof activities)[number]["icon"];
+
+/** `links` makes each card clickable, as on the country pages. */
+export function WhatWeDo({ intro, links }: { intro: string; links?: Record<ActivityKey, string> }) {
   return (
     <section id="what-we-do" className="relative z-10 scroll-mt-20 py-10 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -19,9 +23,12 @@ export function WhatWeDo({ intro }: { intro: string }) {
         <div className="mt-10 grid gap-4 lg:grid-cols-3">
           {activities.map((a) => {
             const Icon = activityIcons[a.icon];
+            const href = links?.[a.icon];
+            const Card = href ? Link : "div";
             return (
-              <div
+              <Card
                 key={a.title}
+                href={href as string}
                 className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-[#1A1A1A] to-[#222] p-5 transition-all duration-500 hover:-translate-y-1 hover:border-claude-orange/20 hover:shadow-2xl"
               >
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/[0.03] to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
@@ -34,12 +41,17 @@ export function WhatWeDo({ intro }: { intro: string }) {
                       <h3 className="text-base leading-tight font-bold text-white">{a.title}</h3>
                       <p className="text-xs font-medium text-claude-orange">{a.tagline}</p>
                     </div>
+                    {href && (
+                      <span className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/5 text-white/40 transition-all duration-300 group-hover:bg-claude-orange group-hover:text-white">
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </span>
+                    )}
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-white/50 transition-colors group-hover:text-white/70">
                     {a.description}
                   </p>
                 </div>
-              </div>
+              </Card>
             );
           })}
         </div>

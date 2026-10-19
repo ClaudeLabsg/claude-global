@@ -24,7 +24,7 @@ A community lead's change may touch **only** these:
 | Path | What it is |
 | --- | --- |
 | `src/content/communities/<slug>.ts` | All the text and links for that community's page |
-| `public/communities/<slug>/` | Photos for that community (the hero photo is `hero.jpg`) |
+| `public/communities/<slug>/` | Images for that community: `hero.jpg`, plus `events/`, `gallery/` and `partners/` folders |
 
 **Do not edit anything else**, even if it looks like a quick fix. That includes:
 
@@ -52,6 +52,24 @@ Editing outside the allowed paths wastes the user's time, because the pull reque
   `facebook`, `instagram`. Order matters: they appear in this order. The first chat channel (WhatsApp/Telegram) is
   the "Join Community" button, and the first event platform (Eventbrite/Luma) is "Join Next Event". Every `href` must be
   a full `https://` link to the community's official account, never `"#"` once the real link is known.
+- `email`: where the Workshops and Collaborate enquiry forms send to. The forms stay disabled until it is set. Use the
+  community's official address only.
+- `phoneExample`: the example number shown in the forms' phone field.
+- `aipFormUrl`: the AI Integration Programme application form. The Apply button is hidden until it is set.
+- `lead`: the "community lead" block on the About page (name, role, bio, optional photo and links). Hidden until set.
+  Only add someone's details with their permission.
+- `events`: one entry per event, with `title`, `date` (`"YYYY-MM-DD"`), `venue`, `url` (the registration page) and an
+  optional `image` (poster in `public/communities/<slug>/events/`). Events move from Upcoming to Past automatically,
+  and the next two show on the community home page. **Adding events is the most common task.**
+- `presentations`: workshop decks for the Presentations page, with `title`, `date` (written out, e.g.
+  `"8 November 2026"`), `description` and `url`.
+- `gallery`: photo albums for the Gallery page and the "From Our Meetups" strip, with `title`, `date`, `venue` and
+  `photos` (`src` in `public/communities/<slug>/gallery/` plus a short `alt` description).
+- `partners`: logos for the "Friends & Partners" strip (`name`, `logo` in `public/communities/<slug>/partners/`).
+  Only list organisations the community has actually worked with. The strip is hidden while the list is empty.
+
+Everything else on the community pages (resources, certifications, AI Programme, workshop and collaboration text and
+prices) is shared copy in `src/lib/`. Leads cannot change it; send the maintainer a message instead.
 
 ## 4. Content rules
 

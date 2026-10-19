@@ -6,9 +6,19 @@ import { Wordmark } from "./Wordmark";
 const headingClass = "text-[9px] font-semibold uppercase tracking-widest text-white/25 sm:text-[10px]";
 const linkClass = "text-[11px] text-white/40 transition-colors hover:text-claude-orange";
 
+function Column({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h4 className={headingClass}>{title}</h4>
+      <div className="mt-2 flex flex-col gap-1.5">{children}</div>
+    </div>
+  );
+}
+
 export function Footer({ country }: { country?: Country }) {
   // Photo credits: the home page shows every country's photo, a country page only its own.
   const credits = (country ? [country] : countries).flatMap((c) => (c.heroCredit ? [c.heroCredit] : []));
+  const base = country ? `/${country.slug}` : "";
 
   return (
     <footer className="border-t border-border bg-[#1A1A1A]">
@@ -19,30 +29,9 @@ export function Footer({ country }: { country?: Country }) {
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 sm:mt-8 md:grid-cols-4">
-          <div>
-            <h4 className={headingClass}>Communities</h4>
-            <div className="mt-2 flex flex-col gap-1.5">
-              <Link href="/" className={linkClass}>
-                Global
-              </Link>
-              {countries.map((c) => (
-                <Link
-                  key={c.slug}
-                  href={countryHref(c)}
-                  target={c.url ? "_blank" : undefined}
-                  rel={c.url ? "noopener noreferrer" : undefined}
-                  className={linkClass}
-                >
-                  {c.flag} {c.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {country && (
-            <div>
-              <h4 className={headingClass}>Community</h4>
-              <div className="mt-2 flex flex-col gap-1.5">
+          {country ? (
+            <>
+              <Column title="Community">
                 {country.channels.map((channel) => (
                   <a
                     key={channel.type}
@@ -54,24 +43,62 @@ export function Footer({ country }: { country?: Country }) {
                     {channelMeta[channel.type].name}
                   </a>
                 ))}
-              </div>
-            </div>
-          )}
-
-          <div>
-            <h4 className={headingClass}>Explore</h4>
-            <div className="mt-2 flex flex-col gap-1.5">
+              </Column>
+              <Column title="Resources">
+                <Link href={`${base}/events`} className={linkClass}>
+                  Events
+                </Link>
+                <Link href={`${base}/resources`} className={linkClass}>
+                  Resources
+                </Link>
+                <Link href={`${base}/slides`} className={linkClass}>
+                  Presentations
+                </Link>
+                <Link href={`${base}/certifications`} className={linkClass}>
+                  Certifications
+                </Link>
+              </Column>
+              <Column title="Contact">
+                {country.email && (
+                  <a href={`mailto:${country.email}`} className={linkClass}>
+                    {country.email}
+                  </a>
+                )}
+                <Link href={`${base}/about`} className={linkClass}>
+                  About Us
+                </Link>
+              </Column>
+            </>
+          ) : (
+            <Column title="Explore">
               <a href="#what-we-do" className={linkClass}>
                 What We Do
               </a>
-              <a href={country ? "#freestyle" : "#principles"} className={linkClass}>
-                {country ? "Freestyle Coding" : "How We Run"}
+              <a href="#principles" className={linkClass}>
+                How We Run
               </a>
               <a href="#get-involved" className={linkClass}>
                 Get Involved
               </a>
-            </div>
-          </div>
+            </Column>
+          )}
+
+          <Column title="Communities">
+            <Link href="/" className={linkClass}>
+              Global
+            </Link>
+            {countries.map((c) => (
+              <Link
+                key={c.slug}
+                href={countryHref(c)}
+                target={c.url ? "_blank" : undefined}
+                rel={c.url ? "noopener noreferrer" : undefined}
+                className={linkClass}
+              >
+                {c.flag} {c.name}
+              </Link>
+            ))}
+          </Column>
         </div>
 
         <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t border-white/5 pt-4 sm:flex-row sm:pt-6">
