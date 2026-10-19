@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Claude Global Community
 
-## Getting Started
+The site for the non-profit Claude communities: Singapore, Johor Bahru, Indonesia, Vietnam and the Philippines.
+Built with Next.js and deployed on Vercel.
 
-First, run the development server:
+## Run it locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev   # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What |
+| --- | --- |
+| `src/content/communities/<slug>.ts` | One file per community: text, city, social links |
+| `public/communities/<slug>/` | That community's photos |
+| `src/components/`, `src/app/` | Shared layout used by every community page |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Community leads
 
-## Learn More
+Each lead edits only their own community file and photo folder. The rules Claude follows (it reads them
+automatically via `CLAUDE.md`) are in [docs/community-lead-guardrails.md](docs/community-lead-guardrails.md).
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Who leads which community is set in `.github/community-leads.json`. The **Community scope** check on every pull request
+fails if a lead's change touches files outside their community.

@@ -1,36 +1,33 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Crimson_Pro, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+// Serif used for the community wordmark, close to the ClaudeSG logo lettering.
+const crimsonPro = Crimson_Pro({
+  variable: "--font-crimson-pro",
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
 });
 
 export const metadata: Metadata = {
-  title: "Claude Global — Enterprise AI Integration & Implementation",
+  title: "Claude Global Community — Find your local Claude community",
   description:
-    "Claude Global designs, builds and deploys agentic systems for Southeast Asian enterprises, on the Claude Agent SDK and AWS — delivering in Singapore, Malaysia and Indonesia.",
+    "Non-profit, volunteer-run Claude communities across Southeast Asia — Singapore, Johor Bahru and Indonesia. Free to join. Everyone is welcome.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${crimsonPro.variable} h-full`}>
+      <body className="flex min-h-full flex-col font-sans antialiased">{children}</body>
     </html>
   );
 }

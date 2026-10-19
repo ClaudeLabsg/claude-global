@@ -1,77 +1,94 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { countries, navLinks } from "@/lib/content";
+import { countries, countryHref, type Country } from "@/lib/content";
+import { channelMeta } from "./channels";
+import { Wordmark } from "./Wordmark";
 
-export function Footer() {
+const headingClass = "text-[9px] font-semibold uppercase tracking-widest text-white/25 sm:text-[10px]";
+const linkClass = "text-[11px] text-white/40 transition-colors hover:text-claude-orange";
+
+export function Footer({ country }: { country?: Country }) {
+  // Photo credits: the home page shows every country's photo, a country page only its own.
+  const credits = (country ? [country] : countries).flatMap((c) => (c.heroCredit ? [c.heroCredit] : []));
+
   return (
-    <footer className="relative overflow-hidden bg-ink text-bone">
-      <div className="grain absolute inset-0" />
-      <div className="relative mx-auto max-w-7xl px-6 pb-10 pt-20 lg:px-10">
-        <div className="grid gap-12 border-b border-white/10 pb-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
-            <p className="font-display text-3xl tracking-tight">Claude Global</p>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-bone/60">
-              AI integration and implementation for Southeast Asian enterprises — Claude and AWS, designed, built,
-              deployed, and handed over.
-            </p>
-            <Link
-              href="#next-steps"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-bone/30 px-5 py-2.5 text-sm font-medium transition-colors hover:bg-bone hover:text-ink"
-            >
-              Book a Discovery Call
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
-          </div>
+    <footer className="border-t border-border bg-[#1A1A1A]">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+        <div className="flex items-center gap-3">
+          <Wordmark code={country?.code ?? "Global"} tone="white" />
+          <span className="text-[10px] text-white/30">Educate, Encourage, Empower with AI.</span>
+        </div>
 
+        <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 sm:mt-8 md:grid-cols-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-bone/40">Practice</p>
-            <ul className="mt-4 space-y-3 text-sm">
-              {navLinks.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="text-bone/70 transition-colors hover:text-bone">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-bone/40">Markets</p>
-            <ul className="mt-4 space-y-3 text-sm">
-              <li>
-                <Link href="/" className="text-bone/70 transition-colors hover:text-bone">
-                  Global
-                </Link>
-              </li>
+            <h4 className={headingClass}>Communities</h4>
+            <div className="mt-2 flex flex-col gap-1.5">
+              <Link href="/" className={linkClass}>
+                Global
+              </Link>
               {countries.map((c) => (
-                <li key={c.slug}>
-                  <Link
-                    href={c.url ?? `/${c.slug}`}
-                    target={c.url ? "_blank" : undefined}
-                    rel={c.url ? "noopener noreferrer" : undefined}
-                    className="text-bone/70 transition-colors hover:text-bone"
-                  >
-                    {c.flag} {c.name}
-                  </Link>
-                </li>
+                <Link
+                  key={c.slug}
+                  href={countryHref(c)}
+                  target={c.url ? "_blank" : undefined}
+                  rel={c.url ? "noopener noreferrer" : undefined}
+                  className={linkClass}
+                >
+                  {c.flag} {c.name}
+                </Link>
               ))}
-            </ul>
+            </div>
           </div>
 
+          {country && (
+            <div>
+              <h4 className={headingClass}>Community</h4>
+              <div className="mt-2 flex flex-col gap-1.5">
+                {country.channels.map((channel) => (
+                  <a
+                    key={channel.type}
+                    href={channel.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={linkClass}
+                  >
+                    {channelMeta[channel.type].name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-bone/40">Contact</p>
-            <ul className="mt-4 space-y-3 text-sm text-bone/70">
-              <li>hello@claude-global.com</li>
-              <li>Singapore, SG · HQ</li>
-              <li>GMT+8</li>
-            </ul>
+            <h4 className={headingClass}>Explore</h4>
+            <div className="mt-2 flex flex-col gap-1.5">
+              <a href="#what-we-do" className={linkClass}>
+                What We Do
+              </a>
+              <a href={country ? "#freestyle" : "#principles"} className={linkClass}>
+                {country ? "Freestyle Coding" : "How We Run"}
+              </a>
+              <a href="#get-involved" className={linkClass}>
+                Get Involved
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col items-start justify-between gap-4 pt-8 text-xs text-bone/40 sm:flex-row sm:items-center">
-          <p>© {new Date().getFullYear()} Claude Global. All rights reserved.</p>
-          <p>Built on the Claude Agent SDK · Delivered on AWS</p>
+        <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t border-white/5 pt-4 sm:flex-row sm:pt-6">
+          <div className="flex flex-col items-center gap-0.5 sm:items-start">
+            <p className="text-[9px] text-white/20">
+              © {new Date().getFullYear()} Claude {country?.name ?? "Global"} Community
+            </p>
+            <p className="text-[9px] text-white/20">A non-profit community. Not affiliated with Anthropic.</p>
+          </div>
+          <div className="flex flex-col items-center gap-0.5 sm:items-end">
+            <p className="text-[9px] text-white/20">Free to join · Everyone is welcome</p>
+            {credits.map((credit) => (
+              <p key={credit} className="text-[9px] text-white/20">
+                {credit}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

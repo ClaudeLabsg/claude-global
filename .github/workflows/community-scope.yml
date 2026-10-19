@@ -1,0 +1,65 @@
+# Blocks a community lead's pull request if it touches files outside their own community.
+# Who leads what lives in .github/community-leads.json.
+#
+# Runs on pull_request_target so it always uses the copy of this workflow and the leads file from `main`,
+# which means a pull request cannot loosen its own check. It never checks out or runs code from the pull request;
+# it only reads the list of changed file names through the GitHub API.
+name: Community scope
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  scope:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/community-leads.json
+          sparse-checkout-cone-mode: false
+
+      - name: Check changed files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          set -euo pipefail
+          config=.github/community-leads.json
+
+          if jq -e --arg u "$AUTHOR" '.maintainers | index($u)' "$config" > /dev/null; then
+            echo "$AUTHOR is a maintainer, so there are no path limits."
+            exit 0
+          fi
+
+          slug=$(jq -r --arg u "$AUTHOR" '.leads[$u] // empty' "$config")
+          if [ -z "$slug" ]; then
+            echo "::error::$AUTHOR is not listed in $config. Ask a maintainer to add you."
+            exit 1
+          fi
+
+          # Includes the old name of renamed files, so a file can't be moved out of scope.
+          files=$(gh api --paginate "repos/$REPO/pulls/$PR/files" \
+            --jq '.[] | .filename, (.previous_filename // empty)')
+
+          bad=""
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            case "$f" in
+              "src/content/communities/$slug.ts" | "public/communities/$slug/"*) ;;
+              *) bad="$bad$f"$'\n' ;;
+            esac
+          done <<< "$files"
+
+          if [ -n "$bad" ]; then
+            echo "::error::$AUTHOR leads '$slug' and may only change src/content/communities/$slug.ts and public/communities/$slug/. Outside that scope:"
+            printf '%s' "$bad"
+            exit 1
+          fi
+          echo "All changes are within the '$slug' community files."

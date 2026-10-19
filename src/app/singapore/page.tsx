@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { CountryTemplate } from "@/components/CountryTemplate";
+import { CountryPage } from "@/components/CountryPage";
 import { countries } from "@/lib/content";
 
 const country = countries.find((c) => c.slug === "singapore")!;
 
 export const metadata: Metadata = {
-  title: "Claude Global Singapore — Enterprise AI, Engineered Locally",
+  title: "Claude Singapore Community — Educate, Encourage, Empower with AI",
   description: country.description,
 };
 
 export default function SingaporePage() {
-  return <CountryTemplate country={country} />;
+  return <CountryPage country={country} />;
 }
