@@ -8,7 +8,8 @@ const community: Country = {
   flag: "🇲🇾",
   city: "Johor Bahru",
   heroImage: "/communities/johor/hero.jpg",
-  heroCredit: "Johor Bahru photo: xiquinhosilva, CC BY 2.0, via Wikimedia Commons",
+  heroCredit:
+    "Johor Bahru photo: xiquinhosilva, CC BY 2.0, via Wikimedia Commons",
   description:
     "A non-profit community in Johor Bahru dedicated to teaching and building with Claude. Everyone is welcome.",
   timezone: "Asia/Kuala_Lumpur",
@@ -16,12 +17,28 @@ const community: Country = {
   // Shown in this order. The first chat (WhatsApp/Telegram) and first event platform (Eventbrite/Luma) drive the hero buttons.
   // TODO: replace each "#" with the real link.
   channels: [
-    { type: "linkedin", href: "#", label: "Follow ClaudeJB" },
+    {
+      type: "linkedin",
+      href: "https://www.linkedin.com/company/claude-jb-community/",
+      label: "Follow ClaudeJB",
+    },
     { type: "eventbrite", href: "#", label: "Eventbrite events" },
-    { type: "whatsapp", href: "#", label: "WhatsApp group chat" },
-    { type: "facebook", href: "#", label: "ClaudeJB on Facebook" },
-    { type: "instagram", href: "#", label: "@claudejb" },
-    { type: "luma", href: "#", label: "Luma calendar" },
+    {
+      type: "whatsapp",
+      href: "https://chat.whatsapp.com/Dc7nYLASfiNFppgP6dllUG",
+      label: "WhatsApp group chat",
+    },
+    {
+      type: "facebook",
+      href: "https://www.facebook.com/profile.php?id=61595400241148",
+      label: "ClaudeJB on Facebook",
+    },
+    {
+      type: "instagram",
+      href: "https://www.instagram.com/claudejohor/",
+      label: "@claudejb",
+    },
+    { type: "luma", href: "https://luma.com/claudejb", label: "Luma calendar" },
   ],
   // Workshop and collaboration enquiries are emailed here. TODO: set the community email.
   // email: "community@example.com",
